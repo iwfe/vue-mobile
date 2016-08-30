@@ -3,12 +3,12 @@
 * @Date:   2016-08-22 16:08:00
 * @Email:  lancui@superjia.com
 * @Last modified by:   lancui
-* @Last modified time: 2016-08-30 16:08:61
+* @Last modified time: 2016-08-30 18:08:98
 */
 
 
-// import Vue from 'vue'
-// import Router from 'vue-router'
+import Vue from 'vue'
+import Router from 'vue-router'
 // import App from './App.vue';
 //
 // Vue.use(Router)
