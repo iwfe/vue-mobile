@@ -97,7 +97,8 @@ module.exports = {
   },
   vue: {
     loaders: {
-      js: 'babel!eslint'
+      js: 'babel!eslint',
+      less: 'style!css!less'
     }
   }
 }
