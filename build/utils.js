@@ -1,13 +1,3 @@
-/**
-* @Author: lancui
-* @Date:   2016-08-22 16:08:00
-* @Email:  lancui@superjia.com
-* @Last modified by:   lancui
-* @Last modified time: 2016-08-26 19:08:87
-*/
-
-
-
 var path = require('path')
 var config = require('../config')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
@@ -44,7 +34,6 @@ exports.cssLoaders = function (options) {
 
   // http://vuejs.github.io/vue-loader/configurations/extract-css.html
   return {
-    js: 'babel!eslint',
     css: generateLoaders(['css']),
     postcss: generateLoaders(['css']),
     less: generateLoaders(['css', 'less']),

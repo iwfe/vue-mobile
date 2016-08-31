@@ -1,6 +1,6 @@
 # vue-mobile
 
-> mobile的vue组件
+> vue components for mobile
 
 ## Build Setup
 
