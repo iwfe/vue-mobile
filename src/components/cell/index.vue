@@ -8,7 +8,7 @@
         {{title}}
         <slot name="after-title"></slot>
       </p>
-      <inline-desc>{{inlineDesc}}</inline-desc>
+      <inline-desc>{{desc}}</inline-desc>
     </div>
     <div class="weui_cell_ft" :class="{'weui_cell_primary':primary==='content', 'with_arrow': isLink || !!link}">
       {{value}}
@@ -31,7 +31,7 @@ export default {
     title: String,
     value: [String, Number],
     isLink: Boolean,
-    inlineDesc: String,
+    desc: String,
     primary: {
       type: String,
       default: 'title'

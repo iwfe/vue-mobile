@@ -14,6 +14,7 @@ var utils = require('./utils')
 var projectRoot = path.resolve(__dirname, '../')
 var webpack = require("webpack")
 var WebpackNotifierPlugin = require('webpack-notifier')
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   entry: {
@@ -30,7 +31,9 @@ module.exports = {
     alias: {
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
-      'components': path.resolve(__dirname, '../src/components')
+      'components': path.resolve(__dirname, '../src/components'),
+      'reset.css': 'semantic-ui/dist/components/reset.min.css',
+      'site.css': 'semantic-ui/dist/components/site.min.css'
     }
   },
   resolveLoader: {
@@ -38,7 +41,8 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.DedupePlugin(),
-    new WebpackNotifierPlugin({ excludeWarnings: true, alwaysNotify: true })
+    new WebpackNotifierPlugin({ excludeWarnings: true, alwaysNotify: true }),
+    new ExtractTextPlugin('[name].css')
   ],
   module: {
     preLoaders: [
@@ -83,12 +87,21 @@ module.exports = {
         }
       },
       {
-        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        test: /\.(woff?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url',
         query: {
           limit: 10000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
+      },
+      // {
+      //   test: /\.css$/,
+      //   loader: ExtractTextPlugin.extract('style', 'css')
+      // },
+      {
+        test: /\.less$/,
+        loader: ExtractTextPlugin.extract('style', 'css!less'),
+        exclude: /node_modules/
       }
     ]
   },
@@ -98,7 +111,8 @@ module.exports = {
   vue: {
     loaders: {
       js: 'babel!eslint',
-      less: 'style!css!less'
+      css: ExtractTextPlugin.extract('style', 'css'),
+      less: ExtractTextPlugin.extract('style', 'css!less')
     }
   }
 }
