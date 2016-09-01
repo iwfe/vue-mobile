@@ -1,18 +1,25 @@
 <template>
-  <div id="app">
+  <div>
     <group title="组件">
-      <cell title="Input" desc="input组件" :link="{name:'input'}"></cell>
+      <cell :title="component.name" :desc="component.desc" :link="component.link" v-for="component in components"></cell>
     </group>
+  </div>
 </template>
 
 <script>
 import Group from '../components/group'
 import Cell from '../components/cell'
+import config from './config'
 
 export default {
   components: {
     Group,
     Cell
+  },
+  data () {
+    return {
+      components: config.components()
+    }
   }
 }
 </script>

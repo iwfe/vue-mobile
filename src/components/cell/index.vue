@@ -21,7 +21,6 @@
 
 <script>
 import InlineDesc from '../inline-desc'
-// import { go } from '../../libs/router'
 
 export default {
   components: {

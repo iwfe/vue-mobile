@@ -15,6 +15,9 @@ export default new Vuex.Store({
     },
     UPDATE_DIRECTION (state, direction) {
       state.direction = direction
+    },
+    UPDATE_ROUTER (state, router) {
+      state.router = router
     }
   }
 })

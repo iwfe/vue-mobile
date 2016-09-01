@@ -1,6 +1,7 @@
 <template>
   <header class="fe-header">
-    {{title}}
+    <div class="title">{{title}}<p>{{desc}}</p></div>
+
   </header>
 </template>
 <script>
@@ -9,6 +10,10 @@
       title: {
         type: String,
         default: 'vue-mobile'
+      },
+      desc: {
+        type: String,
+        default: '爱屋吉屋vue组件库'
       }
     }
   }
@@ -21,5 +26,12 @@
     font-size: 24px;
     text-align: center;
     line-height: 100px;
+    // padding-top: 20px;
+    .title{
+      // margin-top: 20px;
+    }
+    p{
+      font-size: 16px;
+    }
   }
 </style>

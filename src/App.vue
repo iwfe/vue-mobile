@@ -1,12 +1,13 @@
 <template>
   <div>
-    <fe-header></fe-header>
-    <router-view></router-view>
+    <fe-header v-link="{name:'home'}" :title="title" :transition="viewTransition"></fe-header>
+    <router-view :transition="viewTransition"></router-view>
   </div>
 </template>
 <script>
   import FeHeader from './components/fe-header'
   import store from './vuex/store'
+  require('./transition.js')
   export default {
     components: {
       FeHeader
@@ -20,12 +21,23 @@
       }
     },
     ready () {
-      console.log(this.$route)
     },
     computed: {
+      headerTransition () {
+      },
+      viewTransition () {
+        return this.direction === 'forward' ? 'fe-slide-in' : 'fe-slide-out'
+      },
       title () {
-        return this.$route.name
+        const name = this.route.name
+        if (name === 'home') {
+          return 'vue-mobile'
+        }
+        return `${this.route.name}组件`
       }
     }
   }
 </script>
+<style lang="less">
+@import "./styles/transition.less";
+</style>

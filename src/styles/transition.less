@@ -1,0 +1,63 @@
+.fe-slide-in-transition,
+.fe-slide-out-transition,{
+  width: 100%;
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+  backface-visibility: hidden;
+}
+
+.fe-slide-out-enter,
+.fe-slide-out-leave,
+.fe-slide-in-enter,
+.fe-slide-in-leave {
+  will-change: transform;
+  height: 100%;
+  position: absolute;
+  left: 0;
+}
+
+.fe-slide-out-enter {
+  animation-name: slideInLeft;
+}
+.fe-slide-out-leave {
+  animation-name: slideOutRight;
+}
+.fe-slide-in-enter {
+  animation-name: slideInRight;
+}
+.fe-slide-in-leave {
+  animation-name: slideOutLeft;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translate3d(-100%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes slideOutLeft {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+@keyframes slideInRight {
+  from {
+    transform: translate3d(100%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes slideOutRight {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(100%, 0, 0);
+  }
+}
