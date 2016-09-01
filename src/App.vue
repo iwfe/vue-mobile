@@ -1,6 +1,6 @@
 <template>
   <div>
-    <fe-header v-link="{name:'home'}" :title="title" :transition="viewTransition"></fe-header>
+    <fe-header v-link="{name:'home'}" :title="title"></fe-header>
     <router-view :transition="viewTransition"></router-view>
   </div>
 </template>

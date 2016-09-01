@@ -1,7 +1,7 @@
 <template>
   <header class="fe-header">
-    <div class="title">{{title}}<p>{{desc}}</p></div>
-
+    <div class="title">{{title}}</div>
+    <div class="desc">{{desc}}</div>
   </header>
 </template>
 <script>
@@ -27,10 +27,15 @@
     text-align: center;
     line-height: 100px;
     // padding-top: 20px;
-    .title{
+    .title,.desc{
       // margin-top: 20px;
+      height: 50px;
+      line-height: 50px;
     }
-    p{
+    .title{
+      line-height: 80px;
+    }
+    .desc{
       font-size: 16px;
     }
   }
