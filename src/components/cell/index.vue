@@ -21,7 +21,7 @@
 
 <script>
 import InlineDesc from '../inline-desc'
-import { go } from '../../libs/router'
+// import { go } from '../../libs/router'
 
 export default {
   components: {
@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     onClick () {
-      go(this.link, this.$router)
+      this.$router.go(this.link)
     }
   }
 }
