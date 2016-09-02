@@ -13,21 +13,20 @@
              Page
 *******************************/
 
-/*@font-face {
+@font-face {
   font-family: 'Lato';
   font-style: normal;
   font-weight: 400;
   src: local('Lato Regular'), local('Lato-Regular'), url(../assets/Lato.woff) format('woff');
-}*/
-
-@font-face {
-  font-family: 'webfont';
-  src: url('//at.alicdn.com/t/vlbxp6kudefusor.eot'); /* IE9*/
-  src: url('//at.alicdn.com/t/vlbxp6kudefusor.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('//at.alicdn.com/t/vlbxp6kudefusor.woff') format('woff'), /* chrome、firefox */
-  url('//at.alicdn.com/t/vlbxp6kudefusor.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-  url('//at.alicdn.com/t/vlbxp6kudefusor.svg#思源黑体-极细') format('svg'); /* iOS 4.1- */
 }
+
+/*@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url('../assets/Lato.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}*/
 
 
 html,
@@ -43,7 +42,7 @@ body {
   overflow-x: hidden;
   min-width: 320px;
   background: #fbf9fe;
-  font-family: 'webfont', 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   font-size: 14px;
   line-height: 1.4285em;
   color: rgba(0, 0, 0, 0.87);

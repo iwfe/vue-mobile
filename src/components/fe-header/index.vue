@@ -33,10 +33,11 @@
       line-height: 50px;
     }
     .title{
-      line-height: 80px;
+      font-size: 32px;
+      line-height: 70px;
     }
     .desc{
-      font-size: 16px;
+      font-size: 14px;
     }
   }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <group title="组件">
-      <cell :title="component.name" :desc="component.desc" :link="component.link" v-for="component in components"></cell>
+      <cell :title="component.name" :desc="component.desc" :link="component.link" v-for="component in componentsList"></cell>
     </group>
   </div>
 </template>
@@ -9,7 +9,7 @@
 <script>
 import Group from '../components/group'
 import Cell from '../components/cell'
-import config from './config'
+import { componentsList } from './config'
 
 export default {
   components: {
@@ -18,8 +18,10 @@ export default {
   },
   data () {
     return {
-      components: config.components()
+      componentsList: componentsList()
     }
+  },
+  ready () {
   }
 }
 </script>

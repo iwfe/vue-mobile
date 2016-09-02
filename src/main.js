@@ -1,10 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './App'
-
-/* demo view */
-import Home from './demo/Home'
-import Input from './demo/input'
+import RouterMap from './router.map'
 
 Vue.use(VueRouter)
 const router = new VueRouter({
@@ -53,16 +50,7 @@ router.afterEach(() => {
 
 sync(store, router)
 
-router.map({
-  '/': {
-    name: 'home',
-    component: Home
-  },
-  '/demo/input': {
-    name: 'input',
-    component: Input
-  }
-})
+router.map(RouterMap)
 
 /* reset.css */
 require('normalize.css')
