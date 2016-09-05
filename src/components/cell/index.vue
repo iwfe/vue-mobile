@@ -8,7 +8,7 @@
         {{title}}
         <slot name="after-title"></slot>
       </p>
-      <inline-desc>{{inlineDesc}}</inline-desc>
+      <inline-desc>{{desc}}</inline-desc>
     </div>
     <div class="weui_cell_ft" :class="{'weui_cell_primary':primary==='content', 'with_arrow': isLink || !!link}">
       {{value}}
@@ -21,7 +21,6 @@
 
 <script>
 import InlineDesc from '../inline-desc'
-import { go } from '../../libs/router'
 
 export default {
   components: {
@@ -31,7 +30,7 @@ export default {
     title: String,
     value: [String, Number],
     isLink: Boolean,
-    inlineDesc: String,
+    desc: String,
     primary: {
       type: String,
       default: 'title'
@@ -42,7 +41,7 @@ export default {
   },
   methods: {
     onClick () {
-      go(this.link, this.$router)
+      this.$router.go(this.link)
     }
   }
 }
