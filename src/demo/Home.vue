@@ -9,12 +9,14 @@
 <script>
 import Group from '../components/group'
 import Cell from '../components/cell'
+import Datetime from '../components/datetime'
 import { componentsList } from './config'
 
 export default {
   components: {
     Group,
-    Cell
+    Cell,
+    Datetime
   },
   data () {
     return {
