@@ -3,7 +3,7 @@
 * @Date:   2016-08-31 14:08:00
 * @Email:  lancui@superjia.com
 * @Last modified by:   lancui
-* @Last modified time: 2016-08-31 15:08:92
+* @Last modified time: 2016-08-31 17:08:74
 */
 
 
@@ -16,8 +16,6 @@ var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = process.env.NODE_ENV === 'testing'
   ? require('./webpack.prod.conf')
   : require('./webpack.dev.conf')
-
-console.log('process.env.NODE_ENV====' + process.env.NODE_ENV);
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
