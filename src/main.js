@@ -4,12 +4,8 @@ import App from './App'
 import RouterMap from './router.map'
 
 Vue.use(VueRouter)
-const router = new VueRouter({
-  root: '/',
-  mode: 'html5',
-  history: true,
-  saveScrollPosition: true
-})
+
+const router = new VueRouter()
 
 /**
 * sync router params

@@ -40,6 +40,9 @@ module.exports = {
     fallback: [path.join(__dirname, '../node_modules')]
   },
   plugins: [
+    new webpack.ProvidePlugin({
+      Vue: 'vue'
+    }),
     new webpack.optimize.DedupePlugin(),
     new WebpackNotifierPlugin({ excludeWarnings: true, alwaysNotify: true }),
     new ExtractTextPlugin('[name].css')
