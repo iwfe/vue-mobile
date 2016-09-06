@@ -3,7 +3,7 @@
 * @Date:   2016-08-31 14:08:00
 * @Email:  lancui@superjia.com
 * @Last modified by:   lancui
-* @Last modified time: 2016-08-31 15:08:62
+* @Last modified time: 2016-09-05 18:09:04
 */
 
 
@@ -28,6 +28,8 @@ module.exports = {
     // allow async-await
     'generator-star-spacing': 0,
     // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+    'no-unused-vars': 0,
+    'no-extra-boolean-cast': 0
   }
 }
