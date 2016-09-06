@@ -7,12 +7,15 @@ var config = require('../config')
 var ora = require('ora')
 var webpack = require('webpack')
 var webpackConfig = require('./webpack.prod.conf')
+var fse = require('fs-extra')
 
 console.log(
   '  Tip:\n' +
   '  Built files are meant to be served over an HTTP server.\n' +
   '  Opening index.html over file:// won\'t work.\n'
 )
+
+fse.emptydirSync('./dist');
 
 var spinner = ora('building for production...')
 spinner.start()

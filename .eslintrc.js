@@ -29,7 +29,27 @@ module.exports = {
     'generator-star-spacing': 0,
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
-    'no-unused-vars': 0,
+    "semi": 0,
+    "comma-dangle": 0,
+    "global-require": 0,
+    "no-alert": 0,
+    "no-console": 0,
+    "no-param-reassign": 0,
+    "max-len": 0,
+    "func-names": 0,
+    "no-underscore-dangle": 0,
+    "no-unused-vars": 1,
+    "object-shorthand": 0,
+    "arrow-body-style": 1,
+    "no-new": 0,
+    "prefer-template": 0,
+    "prefer-const": 1,
+    "import/no-named-as-default": 0,
+    "import/no-named-as-default-member": 0,
+    "react/require-extension": 0,
+    "no-unused-expressions": 0,
+    "no-irregular-whitespace": 0,
+    "space-before-function-paren": 0,
     'no-extra-boolean-cast': 0
   }
 }
