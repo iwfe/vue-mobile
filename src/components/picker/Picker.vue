@@ -6,7 +6,7 @@
           <div class="scroller-component">
             <div class="scroller-component-mask"></div>
             <div class="scroller-component-indicator"></div>
-            <div class="scrollrt-component-content">
+            <div class="scroller-component-content">
               <div class="scroller-item">2006年</div>
               <div class="scroller-item">2007年</div>
               <div class="scroller-item">2008年</div>
@@ -56,6 +56,12 @@
       overflow: hidden;
       width: 100%;
     }
+    .scroller-component-content, .scroller-component-mask {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+    }
     .scroller-item {
       text-align: center;
       font-size: 16px;
@@ -73,11 +79,18 @@
       background-size: 100% 102px;
       background-repeat: no-repeat;
     }
-    .scroller-component-content, .scroller-component-mask {
+    .scroller-component-indicator {
+      width: 100%;
+      height: 34px;
       position: absolute;
       left: 0;
-      top: 0;
-      width: 100%;
+      top: 102px;
+      z-index: 3;
+      background-image: -webkit-linear-gradient(top,#d0d0d0,#d0d0d0,transparent,transparent),-webkit-linear-gradient(bottom,#d0d0d0,#d0d0d0,transparent,transparent);
+      background-image: linear-gradient(180deg,#d0d0d0,#d0d0d0,transparent,transparent),linear-gradient(0deg,#d0d0d0,#d0d0d0,transparent,transparent);
+      background-position: top,bottom;
+      background-size: 100% 1px;
+      background-repeat: no-repeat;
     }
   }
 
