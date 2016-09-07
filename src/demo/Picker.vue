@@ -4,14 +4,17 @@
     <button>confirm</button>
     <button>cancel</button>
   </picker>
+  <fe-picker></fe-picker>
 </template>
 <script lang="babel">
 require('mint-picker/lib/style.css')
 import Picker from 'mint-picker'
+import FePicker from '../components/picker/Picker.vue'
 
 export default {
   components: {
-    Picker
+    Picker,
+    FePicker
   },
   data() {
     return {

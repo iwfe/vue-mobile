@@ -29,7 +29,6 @@
 
   .fe-flexbox {
     width: 100%;
-    text-align: left;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -42,12 +41,43 @@
     font-size: 24px;
     position: relative;
 
-    .fe-picker-item {
+    .fe-flexbox-item {
       -webkit-box-flex: 1;
       -ms-flex: 1;
       flex: 1;
       min-width: 20px;
       width: 0;
+    }
+
+    .scroller-component {
+      display: block;
+      position: relative;
+      height: 238px;
+      overflow: hidden;
+      width: 100%;
+    }
+    .scroller-item {
+      text-align: center;
+      font-size: 16px;
+      height: 34px;
+      line-height: 34px;
+      color: #000;
+    }
+    .scroller-component-mask {
+      height: 100%;
+      margin: 0 auto;
+      z-index: 3;
+      background-image: -webkit-linear-gradient(top,hsla(0,0%,100%,.95),hsla(0,0%,100%,.6)),-webkit-linear-gradient(bottom,hsla(0,0%,100%,.95),hsla(0,0%,100%,.6));
+      background-image: linear-gradient(180deg,hsla(0,0%,100%,.95),hsla(0,0%,100%,.6)),linear-gradient(0deg,hsla(0,0%,100%,.95),hsla(0,0%,100%,.6));
+      background-position: top,bottom;
+      background-size: 100% 102px;
+      background-repeat: no-repeat;
+    }
+    .scroller-component-content, .scroller-component-mask {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
     }
   }
 
