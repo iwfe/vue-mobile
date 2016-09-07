@@ -1,6 +1,6 @@
 <template>
   <div>
-    <datetime></datetime>
+    <datetime show-format="YYYY年MM月DD日HH时mm分" format="YYYY-MM-DD HH:mm"></datetime>
   </div>
 </template>
 <script>
