@@ -3,7 +3,7 @@
 * @Date:   2016-08-31 14:08:00
 * @Email:  lancui@superjia.com
 * @Last modified by:   lancui
-* @Last modified time: 2016-08-31 15:08:48
+* @Last modified time: 2016-09-07 18:09:72
 */
 
 
@@ -41,7 +41,8 @@ module.exports = {
   },
   plugins: [
     new webpack.ProvidePlugin({
-      Vue: 'vue'
+      Vue: 'vue',
+      $: 'jquery'
     }),
     new webpack.optimize.DedupePlugin(),
     new WebpackNotifierPlugin({ excludeWarnings: true, alwaysNotify: true }),

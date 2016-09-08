@@ -1,9 +1,13 @@
 <template>
-  <div class="datetime">
-    <p class="data-slot" v-for="slot in dataSlots">
-      <span class="sp" v-for="d in slot.data" @click="change()">{{d}}</span>
-    </p>
-  </div>
+  <div>
+    <input type="button" value="OK" @click="comfirm()"/>
+    <input type="input" id="result"/>
+    <div class="datetime">
+      <p class="data-slot" v-for="(index, slot) in dataSlots">
+        <span class="sp" v-for="d in slot.data" :class="{selected : slot.value == d}" @click="change(index, $event)" data-value="{{d}}">{{d}}{{slot.append}}</span>
+      </p>
+    </div>
+</div>
 </template>
 <script>
   export default {
@@ -34,7 +38,8 @@
         startm: 1,
         endm: 60,
         dataSlots: [],
-        initMap: {}
+        initMap: {},
+        dataNeedTypes: [] // 显示的列的类型 如['Y','M','D']
       }
     },
     ready () {
@@ -66,6 +71,13 @@
         if (!!this.showFormat) {
           sres = reg.exec(this.showFormat)
         }
+        // 设置dataNeedTypes
+        if (!!res[1]) this.dataNeedTypes.push('Y')
+        if (!!res[3]) this.dataNeedTypes.push('M')
+        if (!!res[5]) this.dataNeedTypes.push('D')
+        if (!!res[7]) this.dataNeedTypes.push('H')
+        if (!!res[9]) this.dataNeedTypes.push('m')
+
         return {
           Y: {isNeed: !!res[1], append: sres[2]},
           M: {isNeed: !!res[3], append: sres[4]},
@@ -73,6 +85,18 @@
           H: {isNeed: !!res[7], append: sres[8]},
           m: {isNeed: !!res[9], append: sres[10]}
         }
+      },
+      getSlots (dateMap) {
+        for (const d in dateMap) {
+          const [isNeed, append, start, end] = dateMap[d]
+          if (!isNeed) continue;
+          this.dataSlots.push(this.initSlot(d, start, end, append))
+        }
+      },
+      initSlot (type, start, end, append) {
+        const defaultVal = start < 10 ? `0${start}` : start
+        if (!append) append = ''
+        return {type: type, value: defaultVal, append: append, data: this.getArray(start, end)}
       },
       getArray (start, end, append) {
         if (!append) append = ''
@@ -83,33 +107,53 @@
         }
         return arr
       },
-      getSlots (dateMap) {
-        for (const d in dateMap) {
-          const [isNeed, append, start, end] = dateMap[d]
-          if (!isNeed) continue;
-          this.dataSlots.push(this.initSlot(d, start, end, append))
+      // value: ['val1', 'val2']
+      getTypeVals (value) {
+        let i = 0
+        let typeVals = {}
+        for (const ty in this.initMap) {
+          if (this.initMap[ty][0]) { // 显示
+            typeVals[ty] = value[i]
+            i++
+          }
         }
+        return typeVals
       },
-      initSlot (type, start, end, append) {
-        return {type: type, data: this.getArray(start, end, append)}
+      getSelValue () {
+        let curData = []
+        const slots = $('.data-slot').each(function () {
+          const val = $(this).find('.selected').data('value')
+          curData.push(val)
+        })
+        return curData
       },
-      change (curData) {
-        // 改变日
+      change (index, event) {
+        // Test
+        $(event.target).siblings('.selected').removeClass('selected').end().addClass('selected')
+        const curData = this.getSelValue()
+
+        // 如果改变了年或月，则改变日
+        const changeType = this.dataNeedTypes[index]
         const dd = this.initMap.D
         const [isNeed, append, start] = dd
-        if (dd[0]) {
+        if ((changeType === 'Y' || changeType === 'M') && isNeed) {
           const slots = this.dataSlots;
+          const typeVals = this.getTypeVals(curData)
           for (const i in slots) {
             if (slots[i].type === 'D') {
-              const maxDay = this.getMaxDay(2016, 2)
-              slots[i] = this.initSlot('D', start, maxDay, append)
-              this.dataSlots = []
-              this.dataSlots = slots
-              // this.dataSlots.$set(slots)
+              let now = new Date()
+              if (!typeVals.Y) typeVals.Y = now.getFullYear
+              if (!typeVals.M) typeVals.M = now.getMonth + 1
+              const maxDay = this.getMaxDay(typeVals.Y, typeVals.M)
+              const dslot = this.initSlot('D', start, maxDay, append)
+              this.dataSlots.$set(i, dslot)
               return
             }
           }
         }
+
+        // test
+        this.comfirm()
       },
       getMaxDay (year, month) {
         year = parseFloat(year)
@@ -123,6 +167,20 @@
         return year % 100 !== 0 && year % 4 === 0 || year % 400 === 0
       },
       comfirm () {
+        const curData = this.getSelValue()
+        const ntypes = this.dataNeedTypes
+        let res = this.format
+        // window.alert(JSON.stringify(ntypes))
+        for (let i = 0; i < ntypes.length; i++) {
+          const type = ntypes[i]
+          const val = curData[i]
+          if (type === 'Y') res = res.replace(/(Y{4}|Y{2})/, val)
+          else if (type === 'M') res = res.replace('MM', val)
+          else if (type === 'D') res = res.replace('DD', val)
+          else if (type === 'H') res = res.replace('HH', val)
+          else if (type === 'm') res = res.replace('mm', val)
+        }
+        $('#result').val(res)
       }
     }
   }
@@ -137,6 +195,9 @@
         width: 50px;
         border: solid 1px #e9e9e9;
         text-align: center;
+      }
+      .selected {
+        background: #3fd7ea;
       }
     }
   }
