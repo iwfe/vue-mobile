@@ -17,6 +17,11 @@ export function componentsList () {
       name: 'Datetime',
       desc: 'datetime组件',
       link: { name: 'datetime' }
+    },
+    {
+      name: 'Picker',
+      desc: 'picker组件',
+      link: { name: 'picker' }
     }
   ]
 }

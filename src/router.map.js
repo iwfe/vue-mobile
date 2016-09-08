@@ -10,6 +10,7 @@
 import Home from './demo/Home'
 import Input from './demo/input'
 import Datetime from './demo/datetime'
+import Picker from './demo/Picker'
 
 export default {
   '/': {
@@ -23,5 +24,9 @@ export default {
   '/demo/datetime': {
     name: 'datetime',
     component: Datetime
+  },
+  '/demo/picker': {
+    name: 'picker',
+    component: Picker
   }
 }

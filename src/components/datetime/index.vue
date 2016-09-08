@@ -1,7 +1,12 @@
 <template>
   <div>
-    <input type="button" value="OK" @click="comfirm()"/>
-    <input type="input" id="result"/>
+    <p>显示格式：<input type="input" v-model="showFormat" value="{{showFormat}}" style="width:300px" @change="init"/></p>
+    <p>返回格式：<input type="input" v-model="format" style="width:300px" @change="init"/></p>
+
+    <p>
+      <input type="button" value="OK" @click="comfirm()"/>
+      <input type="input" id="result" style="width:300px"/>
+    </p>
     <div class="datetime">
       <p class="data-slot" v-for="(index, slot) in dataSlots">
         <span class="sp" v-for="d in slot.data" :class="{selected : slot.value == d}" @click="change(index, $event)" data-value="{{d}}">{{d}}{{slot.append}}</span>
@@ -87,6 +92,7 @@
         }
       },
       getSlots (dateMap) {
+        this.dataSlots = []
         for (const d in dateMap) {
           const [isNeed, append, start, end] = dateMap[d]
           if (!isNeed) continue;
