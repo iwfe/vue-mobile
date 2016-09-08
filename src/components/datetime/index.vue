@@ -153,11 +153,10 @@
               const maxDay = this.getMaxDay(typeVals.Y, typeVals.M)
               const dslot = this.initSlot('D', start, maxDay, append)
               this.dataSlots.$set(i, dslot)
-              return
+              break
             }
           }
         }
-
         // test
         this.comfirm()
       },
