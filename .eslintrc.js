@@ -3,7 +3,7 @@
 * @Date:   2016-08-31 14:08:00
 * @Email:  lancui@superjia.com
 * @Last modified by:   lancui
-* @Last modified time: 2016-09-07 19:09:98
+* @Last modified time: 2016-09-08 19:09:86
 */
 
 
@@ -53,6 +53,7 @@ module.exports = {
     "no-unused-expressions": 0,
     "no-irregular-whitespace": 0,
     "space-before-function-paren": 0,
-    'no-extra-boolean-cast': 0
+    'no-extra-boolean-cast': 0,
+    'no-eval': 0
   }
 }

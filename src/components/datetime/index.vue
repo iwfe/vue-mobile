@@ -2,6 +2,7 @@
   <div>
     <p>显示格式：<input type="input" v-model="showFormat" value="{{showFormat}}" style="width:300px" @change="init"/></p>
     <p>返回格式：<input type="input" v-model="format" style="width:300px" @change="init"/></p>
+    <p>默认值：<input type="input" v-model="value" style="width:300px" @change="init"/></p>
 
     <p>
       <input type="button" value="OK" @click="comfirm()"/>
@@ -30,6 +31,14 @@
       showFormat: {
         type: String,
         default: ''
+      },
+      appendTop: {
+        type: Array,
+        default: []
+      },
+      value: {
+        type: String,
+        default: '2016-09-02 04:07'
       }
     },
     data () {
@@ -44,7 +53,8 @@
         endm: 60,
         dataSlots: [],
         initMap: {},
-        dataNeedTypes: [] // 显示的列的类型 如['Y','M','D']
+        dataNeedTypes: [], // 显示的列的类型 如['Y','M','D']
+        defaultVal: {} // {'Y': '2016', 'M': '07'}
       }
     },
     ready () {
@@ -66,16 +76,28 @@
       },
       initData () {
         const now = new Date()
-        this.startY = !!this.startYear ? this.startYear : (now.getFullYear() - 5)
-        this.endY = !!this.endYear ? this.endYear : (now.getFullYear() + 5)
+        this.startY = !!this.startYear ? this.startYear : (now.getFullYear() - 10)
+        this.endY = !!this.endYear ? this.endYear : (now.getFullYear() + 10)
       },
       getFormat () {
         const reg = /(Y{4}|Y{2})?([^M{2}D{2}H{2}m{2}]*)?(M{2})?([^D{2}H{2}m{2}]*)?(D{2})?([^H{2}m{2}]*)?(H{2})?([^m{2}]*)?(m{2})?(.*)?/
-        const res = reg.exec(this.format) // ["YYYY-MM-DD HH:mm", "YYYY", "-", "MM", "-", "DD", " ", "HH", ":", "mm", undefined]
+        const res = reg.exec(this.format) // ['YYYY-MM-DD HH:mm', 'YYYY', '-', 'MM', '-', 'DD', ' ', 'HH', ':', 'mm', undefined]
         let sres = {}
         if (!!this.showFormat) {
           sres = reg.exec(this.showFormat)
         }
+        // 获取默认值的reg
+        const defRegStr = '/(?:(\\d{4}|\\d{2}))?(?:' + res[2] + '(\\d{2}))?(?:' + res[4] + '(\\d{2}))?(?:' + res[6] + '(\\d{2}))?(?:' + res[8] + '(\\d{2}))?(?:' + res[10] + ')?/'
+        // let defReg = /(?:(\d{4}|\d{2}))?(?:res[2](\d{2}))?(?:res[4](\d{2}))?(?:res[6](\d{2}))?(?:res[8](\d{2}))?(?:res[10])?/
+        let defReg = window.eval(defRegStr)
+        const defres = defReg.exec(this.value) // ['2016-07-17 23:45', '2016', '07', '17', '23', '45']
+        console.log(defRegStr);
+        if (!!defres[1]) this.defaultVal.Y = defres[1]
+        if (!!defres[2]) this.defaultVal.M = defres[2]
+        if (!!defres[3]) this.defaultVal.D = defres[3]
+        if (!!defres[4]) this.defaultVal.H = defres[4]
+        if (!!defres[5]) this.defaultVal.m = defres[5]
+
         // 设置dataNeedTypes
         if (!!res[1]) this.dataNeedTypes.push('Y')
         if (!!res[3]) this.dataNeedTypes.push('M')
@@ -96,13 +118,19 @@
         for (const d in dateMap) {
           const [isNeed, append, start, end] = dateMap[d]
           if (!isNeed) continue;
+          console.log(JSON.stringify(this.defaultVal));
           this.dataSlots.push(this.initSlot(d, start, end, append))
         }
       },
       initSlot (type, start, end, append) {
-        const defaultVal = start < 10 ? `0${start}` : start
+        let defVal = start < 10 ? `0${start}` : start
+        defVal = !this.defaultVal[type] ? defVal : this.defaultVal[type]
+        console.log(`${defVal}  ${this.defaultVal[type]}`)
         if (!append) append = ''
-        return {type: type, value: defaultVal, append: append, data: this.getArray(start, end)}
+        return {type: type, value: defVal, append: append, data: this.getArray(start, end)}
+      },
+      getDefaultValue () {
+
       },
       getArray (start, end, append) {
         if (!append) append = ''
