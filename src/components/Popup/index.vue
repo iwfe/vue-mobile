@@ -66,8 +66,8 @@
     z-index: 101;
     transition-property: transform;
     -webkit-transition-property: transform;
-    transition-duration: 300ms;
-    -webkit-transition-duration: 300ms;
+    transition-duration: 200ms;
+    -webkit-transition-duration: 200ms;
 
     &.up {
       bottom: 0;
