@@ -1,8 +1,8 @@
 <template>
   <div class="fe-picker">
     <div class="fe-flexbox fe-flex-row">
-      <div class="fe-flexbox-item" v-for="data in pickerData">
-        <div class="fe-picker-item">
+      <div class="fe-flexbox-item" v-for="(index, data) in pickerData">
+        <div class="fe-picker-item" :id="'fe-picker-' + uuid + '-' + index">
           <div class="scroller-component">
             <div class="scroller-component-mask"></div>
             <div class="scroller-component-indicator"></div>
@@ -20,6 +20,11 @@
     props: {
       pickerData: {
         type: Array
+      }
+    },
+    data() {
+      return {
+        uuid: Math.random().toString(36).substring(3, 8)
       }
     }
   }
