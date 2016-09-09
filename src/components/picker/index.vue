@@ -21,7 +21,9 @@
     </div>
   </div>
 </template>
-
+<script lang="babel">
+  import animate from './animate'
+</script>
 <style lang="less">
   .fe-picker {
     overflow: hidden;
