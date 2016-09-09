@@ -1,19 +1,13 @@
 <template>
   <div class="fe-picker">
     <div class="fe-flexbox fe-flex-row">
-      <div class="fe-flexbox-item">
+      <div class="fe-flexbox-item" v-for="data in pickerData">
         <div class="fe-picker-item">
           <div class="scroller-component">
             <div class="scroller-component-mask"></div>
             <div class="scroller-component-indicator"></div>
             <div class="scroller-component-content">
-              <div class="scroller-item">2006年</div>
-              <div class="scroller-item">2007年</div>
-              <div class="scroller-item">2008年</div>
-              <div class="scroller-item">2009年</div>
-              <div class="scroller-item">2010年</div>
-              <div class="scroller-item">2011年</div>
-              <div class="scroller-item">2012年</div>
+              <div class="scroller-item" v-for="item in data">{{item.name}}</div>
             </div>
           </div>
         </div>
@@ -22,7 +16,13 @@
   </div>
 </template>
 <script lang="babel">
-  import animate from './animate'
+  export default {
+    props: {
+      pickerData: {
+        type: Array
+      }
+    }
+  }
 </script>
 <style lang="less">
   .fe-picker {
