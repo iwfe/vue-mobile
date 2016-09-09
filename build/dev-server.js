@@ -29,6 +29,7 @@ var compiler = webpack(webpackConfig)
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
   publicPath: webpackConfig.output.publicPath,
   stats: {
+    children: false,
     colors: true,
     chunks: false
   }

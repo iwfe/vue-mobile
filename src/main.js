@@ -13,7 +13,7 @@ const router = new VueRouter()
 import { sync } from 'vuex-router-sync'
 import store from './vuex/store'
 
-let history = window.sessionStorage
+const history = window.sessionStorage
 history.clear()
 let historyCount = history.getItem('count') * 1 || 0
 history.setItem('/', 0)
@@ -52,6 +52,7 @@ router.map(RouterMap)
 require('normalize.css')
 require('reset.css')
 require('./styles/site.css')
+require('./styles/global.css')
 
 /* eslint-disable no-new */
 router.start(Vue.extend(App), '#app')

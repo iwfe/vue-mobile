@@ -22,6 +22,11 @@ export function componentsList () {
       name: 'Picker',
       desc: 'picker组件',
       link: { name: 'picker' }
+    },
+    {
+      name: 'Popup',
+      desc: 'popup组件',
+      link: { name: 'popup' }
     }
   ]
 }

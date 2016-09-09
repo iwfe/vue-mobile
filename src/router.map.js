@@ -11,6 +11,7 @@ import Home from './demo/Home'
 import Input from './demo/input'
 import Datetime from './demo/datetime'
 import Picker from './demo/Picker'
+import Popup from './demo/Popup.vue'
 
 export default {
   '/': {
@@ -28,5 +29,9 @@ export default {
   '/demo/picker': {
     name: 'picker',
     component: Picker
+  },
+  '/demo/popup': {
+    name: 'popup',
+    component: Popup
   }
 }
