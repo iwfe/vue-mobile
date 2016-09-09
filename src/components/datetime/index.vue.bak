@@ -1,14 +1,6 @@
 <template>
   <div>
-    <input type="text" v-model="" @click="show = true"/>
-    <popup :show.sync="show" height="266px">
-      <div class="pop-top-btns">
-        <button class="left" @click="show = false">取消</button>
-        <button class="right" @click="comfirm">确认</button>
-      </div>
-      <picker></picker>
-    </popup>
-    <!-- <p>显示格式：<input type="input" v-model="showFormat" value="{{showFormat}}" style="width:300px" @change="init"/></p>
+    <p>显示格式：<input type="input" v-model="showFormat" value="{{showFormat}}" style="width:300px" @change="init"/></p>
     <p>返回格式：<input type="input" v-model="format" style="width:300px" @change="init"/></p>
     <p>appendTop：<input type="input" v-model="appendTop" style="width:300px" @change="init"/></p>
     <p>默认值：<input type="input" v-model="value" style="width:300px" @change="init"/></p>
@@ -21,13 +13,10 @@
       <p class="data-slot" v-for="(index, slot) in dataSlots">
         <span class="sp" v-for="d in slot.data" :class="{selected : slot.value == d}" @click="change(index, $event)" data-value="{{d}}" data-append="{{slot.append}}">{{d}}</span>
       </p>
-    </div> -->
+    </div>
 </div>
 </template>
 <script>
-  import Popup from '../popup'
-  import Picker from '../picker'
-
   export default {
     props: {
       startYear: {
@@ -51,11 +40,7 @@
       value: {
         type: String,
         default: '2016-09-02 04:07'  // test
-      },
-    },
-    components: {
-      Popup,
-      Picker
+      }
     },
     data () {
       return {
@@ -70,10 +55,7 @@
         dataSlots: [],
         initMap: {},
         dataNeedTypes: [], // 显示的列的类型 如['Y','M','D']
-        defaultVal: {}, // {'Y': '2016', 'M': '07'}
-        result: '',
-
-        show: false
+        defaultVal: {} // {'Y': '2016', 'M': '07'}
       }
     },
     ready () {
@@ -234,7 +216,6 @@
         return year % 100 !== 0 && year % 4 === 0 || year % 400 === 0
       },
       comfirm () {
-        this.show = false;
         const curData = this.getSelValue()
         const ntypes = this.dataNeedTypes
         let res = this.format
@@ -248,8 +229,7 @@
           else if (type === 'H') res = res.replace('HH', val)
           else if (type === 'm') res = res.replace('mm', val)
         }
-        this.result = res
-        // $('#result').val(res)
+        $('#result').val(res)
       }
     }
   }
@@ -268,18 +248,6 @@
       .selected {
         background: #3fd7ea;
       }
-    }
-  }
-  .pop-top-btns {
-    padding: 0 20px;
-    width: 100%;
-    line-height: 28px;
-    display: inline-block;
-    font-size: 16px;
-    .left {
-    }
-    .right {
-      float: right;
     }
   }
 </style>

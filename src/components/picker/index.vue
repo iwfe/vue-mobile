@@ -22,6 +22,9 @@
   </div>
 </template>
 
+<script>
+</script>
+
 <style lang="less">
   .fe-picker {
     overflow: hidden;
