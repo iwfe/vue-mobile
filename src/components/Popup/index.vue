@@ -28,6 +28,10 @@
       width: {
         type: String,
         default: '100%'
+      },
+      clickMaskHide: {
+        type: Boolean,
+        default: true
       }
     },
     watch: {
@@ -46,7 +50,10 @@
         this.divMask.href = 'javascript:void(0)'
         document.body.appendChild(this.divMask)
       }
-      console.log(this.show)
+      if (this.clickMaskHide) {
+        document.querySelectorAll('.fe-mask')[0].addEventListener('click', () => { this.show = false })
+        document.querySelectorAll('.fe-mask')[0].addEventListener('touchstart', () => { this.show = false })
+      }
     },
     methods: {}
   }
@@ -58,7 +65,9 @@
     background: #eee;
     z-index: 101;
     transition-property: transform;
-    transition-duration: 300ms;
+    -webkit-transition-property: transform;
+    transition-duration: 200ms;
+    -webkit-transition-duration: 200ms;
 
     &.up {
       bottom: 0;
@@ -78,33 +87,39 @@
     }
   }
 
-  .up-transiton {
-  }
   .up-enter {
     transform: translate3d(0, 100%, 0);
+    -webkit-transform: translate3d(0, 100%, 0);
   }
   .up-leave {
     transform: translate3d(0, 100%, 0);
+    -webkit-transform: translate3d(0, 100%, 0);
   }
 
   .down-enter {
     transform: translate3d(0, -100%, 0);
+    -webkit-transform: translate3d(0, -100%, 0);
   }
   .down-leave {
     transform: translate3d(0, -100%, 0);
+    -webkit-transform: translate3d(0, -100%, 0);
   }
 
   .left-enter {
     transform: translate3d(100%, 0, 0);
+    -webkit-transform: translate3d(100%, 0, 0);
   }
   .left-leave {
     transform: translate3d(100%, 0, 0);
+    -webkit-transform: translate3d(100%, 0, 0);
   }
 
   .right-enter {
     transform: translate3d(-100%, 0, 0);
+    -webkit--webkit-transform: translate3d(-100%, 0, 0);
   }
   .right-leave {
     transform: translate3d(-100%, 0, 0);
+    -webkit-transform: translate3d(-100%, 0, 0);
   }
 </style>
