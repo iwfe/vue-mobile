@@ -5,10 +5,10 @@
     <button @click="show.demo3 = true">Show Popleft</button>
     <button @click="show.demo4 = true">Show Popright</button>
 
-    <popup :show.sync="show.demo1">
+    <popup :show.sync="show.demo1" height="80px">
       <button @click="show.demo1 = false">hide</button>
     </popup>
-    <popup :show.sync="show.demo2" direction="down">
+    <popup :show.sync="show.demo2" direction="down" :click-mask-hide="false">
       <button @click="show.demo2 = false">hide</button>
     </popup>
     <popup :show.sync="show.demo3" direction="left" height="100%">
