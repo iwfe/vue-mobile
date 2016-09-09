@@ -63,22 +63,18 @@
     &.up {
       bottom: 0;
       left: 0;
-      width: 100%;
     }
     &.down {
-      top: -100%;
+      top: 0;
       left: 0;
-      width: 100%;
     }
     &.left {
       top: 0;
-      left: 100%;
-      height: 100%;
+      left: 0;
     }
     &.right {
       top: 0;
-      left: -100%;
-      height: 100%;
+      right: 0;
     }
   }
 
@@ -89,5 +85,26 @@
   }
   .up-leave {
     transform: translate3d(0, 100%, 0);
+  }
+
+  .down-enter {
+    transform: translate3d(0, -100%, 0);
+  }
+  .down-leave {
+    transform: translate3d(0, -100%, 0);
+  }
+
+  .left-enter {
+    transform: translate3d(100%, 0, 0);
+  }
+  .left-leave {
+    transform: translate3d(100%, 0, 0);
+  }
+
+  .right-enter {
+    transform: translate3d(-100%, 0, 0);
+  }
+  .right-leave {
+    transform: translate3d(-100%, 0, 0);
   }
 </style>
