@@ -1,3 +1,13 @@
+/**
+* @Author: lancui
+* @Date:   2016-09-05 11:09:00
+* @Email:  lancui@superjia.com
+* @Last modified by:   lancui
+* @Last modified time: 2016-09-07 19:09:18
+*/
+
+
+
 var config = require('../config')
 var webpack = require('webpack')
 var merge = require('webpack-merge')
@@ -18,7 +28,8 @@ module.exports = merge(baseWebpackConfig, {
   devtool: '#eval-source-map',
   plugins: [
     new webpack.ProvidePlugin({
-      Vue: 'vue'
+      Vue: 'vue',
+      $: 'jquery'
     }),
     new webpack.DefinePlugin({
       'process.env': config.dev.env
