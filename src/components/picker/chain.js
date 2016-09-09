@@ -1,3 +1,11 @@
+/**
+ * chain used in scroller-item
+ * copy from vux Picker(https://github.com/airyland/vux)
+ * desc: 主要是在联动的时候调用，如果不是联动的数据，可以不调用
+ * Licensed under the MIT License.
+ * https://raw.github.com/zynga/scroller/master/MIT-LICENSE.txt
+ */
+
 import filter from 'array-filter'
 
 const Manager = class {
