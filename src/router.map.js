@@ -11,7 +11,8 @@ import Home from './demo/Home'
 import Input from './demo/input'
 import Datetime from './demo/datetime'
 import Picker from './demo/Picker'
-import Popup from './demo/Popup.vue'
+import Popup from './demo/Popup'
+import Scroller from './demo/scroller'
 
 export default {
   '/': {
@@ -33,5 +34,9 @@ export default {
   '/demo/popup': {
     name: 'popup',
     component: Popup
+  },
+  '/demo/scroller': {
+    name: 'scroller',
+    component: Scroller
   }
 }

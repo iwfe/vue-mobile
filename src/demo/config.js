@@ -27,6 +27,11 @@ export function componentsList () {
       name: 'Popup',
       desc: 'popup组件',
       link: { name: 'popup' }
+    },
+    {
+      name: 'Scroller',
+      desc: 'scroller组件',
+      link: { name: 'scroller' }
     }
   ]
 }
