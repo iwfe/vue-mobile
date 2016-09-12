@@ -517,7 +517,7 @@ const members = {
         self.__decelerationVelocityY = 0
       }
     } else {
-      self.__decelerationVelocityY *= 0.5
+      self.__decelerationVelocityY *= 0.95
     }
 
     self.__publish(scrollTop)
