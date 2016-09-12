@@ -64,17 +64,49 @@ const Scroller = function (container, options) {
   }
 
   self.select(self.options.defaultValue, false)
+
+  component.addEventListener('touchstart', function (e) {
+    // 容错处理，防止表单元素
+    if (e.target.tagName.match(/input|textarea|select/i)) {
+      return
+    }
+    e.preventDefault()
+    self.__doTouchStart(e.touches, e.timeStamp)
+  }, false)
+
+  component.addEventListener('touchmove', function (e) {
+    self.__doTouchMove(e.touches, e.timeStamp)
+  }, false)
+
+  component.addEventListener('touchend', function (e) {
+    self.__doTouchEnd(e.timeStamp)
+  }, false)
 }
 const members = {
   value: null,
   __prevValue: null,  // 记录上一次选中的值
+  __isSingleTouch: false,
+  __isTracking: false,
+  __didDecelerationComplete: false,
+  __isGesturing: false,
+  __isDragging: false,
   __isDecelerating: false, // 标识是否在滚动减速的过程中
+  __clientTop: 0,
   __clientHeight: 0,
   __contentHeight: 0,
+  __interruptedAnimation: false,
   __isAnimating: false,
   __scheduledTop: 0,
+  __itemHeight: 0,
   __scrollTop: 0,
-  __didDecelerationComplete: false,
+  __minScrollTop: 0,
+  __maxScrollTop: 0,
+  __lastTouchTop: null,
+  __lastTouchMove: null,
+  __positions: null,
+  __minDecelerationScrollTop: null,
+  __maxDecelerationScrollTop: null,
+  __decelerationVelocityY: null,
 
   __setDimensions(clientHeight, contentHeight) {
     const self = this
@@ -186,6 +218,201 @@ const members = {
       self.options.onSelect(self.value)
     }
   },
+  __doTouchStart(touches, timeStamp) {
+    const self = this
+
+    if (touches.length == null) {
+      throw new Error(`Invalid touch list: ${touches}`)
+    }
+
+    if (timeStamp instanceof Date) {
+      timeStamp = timeStamp.valueOf()
+    }
+
+    if (typeof timeStamp !== 'number') {
+      throw new Error(`Invalid timeStamp value: ${timeStamp}`)
+    }
+
+    self.__interruptedAnimation = true
+
+    if (self.__isDecelerating) {
+      Animate.stop(self.__isDecelerating)
+      self.__isDecelerating = false
+      self.__interruptedAnimation = true
+    }
+
+    if (self.__isAnimating) {
+      Animate.stop(self.__isAnimating)
+      self.__isAnimating = false
+      self.__interruptedAnimation = true
+    }
+
+    // use center point when dealing with two fingers
+    let currentTouchTop
+    let isSingleTouch = touches.length === 1
+    if (isSingleTouch) {
+      currentTouchTop = touches[0].pageY
+    } else {
+      currentTouchTop = Math.abs(touches[0].pageY + touches[1].pageY) / 2
+    }
+
+    self.__initialTouchTop = currentTouchTop
+    self.__lastTouchTop = currentTouchTop
+    self.__lastTouchMove = timeStamp
+    self.__lastScale = 1
+    self.__enableScrollY = !isSingleTouch
+    self.__isTracking = true
+    self.__didDecelerationComplete = false
+    self.__isDragging = !isSingleTouch
+    self.__isSingleTouch = isSingleTouch
+    self.__positions = []
+  },
+  __doTouchMove(touches, timeStamp, scale) {
+    const self = this
+
+    if (touches.length === null) {
+      throw new Error(`Invalid touch list: ${touches}`)
+    }
+
+    if (timeStamp instanceof Date) {
+      timeStamp = timeStamp.valueOf()
+    }
+
+    if (typeof timeStamp !== 'number') {
+      throw new Error(`Invalid timeStamp value: ${timeStamp}`)
+    }
+
+    // Ignore event when tracking is not enabled (event might be outside of element)
+    if (!self.__isTracking) {
+      return
+    }
+
+    let currentTouchTop
+
+    // compute move based around of center of fingers
+    if (touches.length === 2) {
+      currentTouchTop = Math.abs(touches[0].pageY + touches[1].pageY) / 2
+    } else {
+      currentTouchTop = touches[0].pageY
+    }
+
+    let positions = self.__positions
+    // judge if it is in the dragging module(超过一根指头在拖动)
+    if (self.__isDragging) {
+      let moveY = currentTouchTop - self.__lastTouchTop
+      let scrollTop = self.__scrollTop
+      if (self.__enableScrollY) {
+        // moveY 为正值代表向上滑，为负值代表向下划
+        scrollTop -= moveY
+        let minScrollTop = self.__minScrollTop
+        let maxScrollTop = self.__maxScrollTop
+
+        if (scrollTop > maxScrollTop || scrollTop < minScrollTop) {
+          // slow down on the edges
+          if (scrollTop > maxScrollTop) {
+            scrollTop = maxScrollTop
+          } else {
+            scrollTop = minScrollTop
+          }
+        }
+      }
+
+      // keep list from growing infinitely (holding min 10, max 20 measure points)
+      if (positions.length > 40) {
+        positions.splice(0, 20)
+      }
+
+      // track scroll movement for decleration
+      positions.push(scrollTop, timeStamp)
+
+      // sync scroll position
+      self.__publish(scrollTop)
+
+      // otherwise figure out whether we are switching into dragging mode now
+    } else {
+      let minimumTrackingForScroll = 0
+      let minimumTrackingForDrag = 5
+
+      let distanceY = Math.abs(currentTouchTop - self.__initialTouchTop)
+      self.__enableScrollY = distanceY >= minimumTrackingForScroll
+
+      positions.push(self.__scrollTop, timeStamp)
+
+      self.__isDragging = self.__enableScrollY && (distanceY >= minimumTrackingForDrag)
+
+      if (self.__isDragging) {
+        self.__interruptedAnimation = false
+      }
+    }
+
+    // update last touch positions and time stamp for next event
+    self.__lastTouchTop = currentTouchTop
+    self.__lastTouchMove = timeStamp
+    self.__lastScale = scale
+  },
+
+  __doTouchEnd(timeStamp) {
+    const self = this
+
+    if (timeStamp instanceof Date) {
+      timeStamp = timeStamp.valueOf()
+    }
+    if (typeof timeStamp !== 'number') {
+      throw new Error(`Invalid timeStamp value: ${timeStamp}`)
+    }
+
+    // Ignore event whne tracking is not enabled (no touchstart event on element)
+    // This is required as this listener ('touchmove') sits on the document and not on the element itself
+    if (!self.__isTracking) {
+      return
+    }
+
+    // not touching anymore (when two finger hit the screen there are two touch and events)
+    self.__isTracking = false
+
+    // be sure to reset the dragging flag now. Here we also detect whether
+    // the finger has moved fast enough to switch into a deceleration animation.
+    if (self.__isDragging) {
+      // reset dragging flag
+      self.__isDragging = false
+      // start deceleration
+      // verify that the last move detected was in some relevant time frame
+      if (self.__isSingleTouch && (timeStamp - self.__lastTouchMove) <= 100) {
+        // then figure out what the scroll position was about 100ms ago
+        let positions = self.__positions
+        let endPos = positions.length - 1
+        let startPos = endPos
+        // move pointer to position measured 100ms ago
+        for (let i = endPos; i > 0 && positions[i] > (self.__lastTouchMove - 100); i -= 2) {
+          startPos = i
+        }
+        // if start ans stop position is identical in a 100ms timeStamp
+        // we cannot compute any useful deceleration
+        if (startPos !== endPos) {
+          // compute relative movement between these two points
+          let timeOffset = positions[endPos] - positions[startPos]
+          let movedTop = self.__scrollTop - positions[startPos - 1]
+          // based on 50ms compute the movement to apply for each render step
+          self.__decelerationVelocityY = movedTop / timeOffset * (1000 / 60)
+
+          // how much velocity is required to start the deceleration
+          let minVelocityToStartDeceleration = 4
+
+          // verify that we have enough velocity to start deceleration
+          if (Math.abs(self.__decelerationVelocityY) > minVelocityToStartDeceleration) {
+            self.__startDeceleration(timeStamp)
+          }
+        }
+      }
+    }
+
+    if (!self.__isDecelerating) {
+      self.scrollTo(self.__scrollTop)
+    }
+
+    // fully cleanuo list
+    self.__positions.length = 0
+  },
   // Applies the scroll position to the content element
   __publish(top, animationDuration) {
     const self = this
@@ -232,6 +459,68 @@ const members = {
         self.__callback(top)
       }
     }
+  },
+
+  // called when a touch sequence end and the speed of the finger was high enough to switch into deceleration mode
+  __startDeceleration(timeStamp) {
+    const self = this
+
+    self.__minDecelerationScrollTop = self.__minScrollTop
+    self.__maxDecelerationScrollTop = self.__maxScrollTop
+
+    // wrap class method
+    let step = function (percent, now, render) {
+      self.__stepThroughDeceleration(render)
+    }
+
+    // how much velocity is required to keep the deceleration running
+    let minVelocityToKeepDecelerating = 0.5
+
+    // detect whether it's still worth to continue animating steps
+    // if we are already slow enough to not being user perceivable anymore, wo stop the whole process Here
+    let verify = function () {
+      let shouldContinue = Math.abs(self.__decelerationVelocityY) >= minVelocityToKeepDecelerating
+      if (!shouldContinue) {
+        self.__didDecelerationComplete = true
+      }
+      return shouldContinue
+    }
+
+    let completed = function (renderedFramesPerSecond, animationId, wasFinished) {
+      self.__isDecelerating = false
+      if (self.__scrollTop <= self.__minScrollTop || self.__scrollTop >= self.__maxScrollTop) {
+        self.scrollTo(self.__scrollTop)
+        return
+      }
+      if (self.__didDecelerationComplete) {
+        self.__scrollingComplete()
+      }
+    }
+
+    // start animation and switch on flag
+    self.__isDecelerating = Animate.start(step, verify, completed)
+  },
+  __stepThroughDeceleration(render) {
+    const self = this
+
+    let scrollTop = self.__scrollTop + self.__decelerationVelocityY
+
+    let scrollTopFixed = Math.max(Math.min(self.__maxDecelerationScrollTop, scrollTop), self.__minDecelerationScrollTop)
+
+    if (scrollTopFixed !== scrollTop) {
+      scrollTop = scrollTopFixed
+      self.__decelerationVelocityY = 0
+    }
+
+    if (Math.abs(self.__decelerationVelocityY) <= 1) {
+      if (Math.abs(scrollTop % self.__itemHeight) < 1) {
+        self.__decelerationVelocityY = 0
+      }
+    } else {
+      self.__decelerationVelocityY *= 0.5
+    }
+
+    self.__publish(scrollTop)
   }
 }
 
