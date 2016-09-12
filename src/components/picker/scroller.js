@@ -8,7 +8,8 @@ const TEMPLATE = `
 import Animate from './animate'
 import { getElement, getComputedStyle, easeInOutCubic, easeOutCubic } from './util'
 
-const Scroller = (container, options) => {
+// 不能使用箭头函数，使用箭头函数会产生 this 为 undefined 的问题
+const Scroller = function (container, options) {
   const self = this
   options = options || {}
   self.options = {
@@ -66,10 +67,11 @@ const Scroller = (container, options) => {
 }
 const members = {
   value: null,
+  __prevValue: null,  // 记录上一次选中的值
+  __isDecelerating: false, // 标识是否在滚动减速的过程中
   __clientHeight: 0,
   __contentHeight: 0,
   __isAnimating: false,
-  __isDecelerating: false,
   __scheduledTop: 0,
   __scrollTop: 0,
   __didDecelerationComplete: false,
@@ -98,7 +100,8 @@ const members = {
     if (index < 0 || index > self.__content.childElementCount - 1) {
       return
     }
-    self.__minScrollTop = self.__minScrollTop + index * self.__itemHeight
+    // set scrollTop
+    self.__scrollTop = self.__minScrollTop + index * self.__itemHeight
 
     self.scrollTo(self.__scrollTop, animate)
 
@@ -112,9 +115,9 @@ const members = {
    */
   select(value, animate) {
     const self = this
-
-    let children = self._content.children
-    for (let [i, len] = [0, children.length]; i < len; i++) {
+    let children = self.__content.children
+    let [i, len] = [0, children.length]
+    for (; i < len; i++) {
       if (children[i].dataset.value === value) {
         self.selectByIndex(i, animate)
         return
@@ -123,6 +126,14 @@ const members = {
 
     self.selectByIndex(0, animate)
   },
+  getValue() {
+    return this.value
+  },
+  /**
+   * scroll to the top
+   * @param  {Number} top     所需要滚动到的top值
+   * @param  {Boolean} animate 滚动时是否调用动画
+   */
   scrollTo(top, animate) {
     const self = this
 
@@ -131,10 +142,12 @@ const members = {
       Animate.stop(self.__isDecelerating)
       self.__isDecelerating = false
     }
-
+    // 判断 top 值是否在之前计算的最大以及最小滚动值范围内
+    // 如果不在，则将 top 值设置为最大或者最小滚动值
     top = Math.round(top / self.__itemHeight) * self.__itemHeight
     top = Math.max(Math.min(self.__maxScrollTop, top), self.__minScrollTop)
 
+    // 滚动值初始化时
     if (top === self.__scrollTop || !animate) {
       self.__publish(top)
       self.__scrollingComplete()
@@ -142,6 +155,13 @@ const members = {
     }
     self.__publish(top, 250)
   },
+  destroy() {
+    this.__component.parentNode && this.__component.parentNode.removeChild(this.__component)
+  },
+  /**
+   * 给所选中的那一项增加'XX-selected'类名,并记录上一次选中的那一项以及上一次选中的值
+   * @param selectedItem 所选中的那一项
+   */
   __selectItem(selectedItem) {
     const self = this
     const selectedItemClass = self.options.itemClass + '-selected'
@@ -157,16 +177,28 @@ const members = {
 
     self.value = selectedItem.dataset.value
   },
+  __scrollingComplete() {
+    const self = this
+    // decide which one was chosen according to the scrollTop
+    const index = Math.round((self.__scrollTop - self.__minScrollTop - self.__itemHeight / 2) / self.__itemHeight)
+
+    if (self.__prevValue !== null && self.__prevValue !== self.value) {
+      self.options.onSelect(self.value)
+    }
+  },
+  // Applies the scroll position to the content element
   __publish(top, animationDuration) {
     const self = this
 
+    // Remember whether we had an animation, then we try to continue based on the current "drive" of the animation
     let wasAnimating = self.__isAnimating
     if (wasAnimating) {
       Animate.stop(wasAnimating)
       self.__isAnimating = false
     }
-
+    // animation duration has been setted
     if (animationDuration) {
+      // Keep scheduled positions for scrollBy functionality
       self.__scheduledTop = top
 
       let oldTop = self.__scrollTop
@@ -174,6 +206,7 @@ const members = {
 
       const step = (percent, now, render) => {
         self.__scrollTop = oldTop + (diffTop * percent)
+        // push values out
         if (self.__callback) {
           self.__callback(self.__scrollTop)
         }
@@ -191,6 +224,7 @@ const members = {
           self.__scrollingComplete()
         }
       }
+      // When continuing based on previous animation we choose an ease-out animation instead of ease-in-out
       self.__isAnimating = Animate.start(step, verify, completed, animationDuration, wasAnimating ? easeOutCubic : easeInOutCubic)
     } else {
       self.__scheduledTop = self.__scrollTop = top
@@ -201,4 +235,8 @@ const members = {
   }
 }
 
+// copy over memebers to prototype
+for (var key in members) {
+  Scroller.prototype[key] = members[key]
+}
 module.exports = Scroller

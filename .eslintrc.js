@@ -21,7 +21,8 @@ module.exports = {
     'html'
   ],
   globals: {
-    '$': true
+    '$': true,
+    'alert': true
   },
   // add your custom rules here
   'rules': {

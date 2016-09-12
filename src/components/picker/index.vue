@@ -1,16 +1,8 @@
 <template>
   <div class="fe-picker">
     <div class="fe-flexbox fe-flex-row">
-      <div class="fe-flexbox-item" v-for="(index, data) in pickerData">
-        <div class="fe-picker-item" :id="'fe-picker-' + uuid + '-' + index">
-          <div class="scroller-component">
-            <div class="scroller-component-mask"></div>
-            <div class="scroller-component-indicator"></div>
-            <div class="scroller-component-content">
-              <div class="scroller-item" v-for="item in data">{{item.name}}</div>
-            </div>
-          </div>
-        </div>
+      <div class="fe-flexbox-item" v-for="(index, one) in data">
+        <div class="fe-picker-item" :id="'fe-picker-' + uuid + '-' + index"></div>
       </div>
     </div>
   </div>
@@ -19,13 +11,70 @@
   import Scroller from './scroller'
   export default {
     props: {
-      pickerData: {
+      data: {
         type: Array
+      },
+      columns: {
+        type: Number,
+        default: 0
+      },
+      value: {
+        type: Array,
+        twoWay: true
+      },
+      itemClass: {
+        type: String,
+        default: 'scroller-item'
       }
     },
     data() {
       return {
-        uuid: Math.random().toString(36).substring(3, 8)
+        scroller: [],
+        uuid: Math.random().toString(36).substring(3, 8),
+        count: 0
+      }
+    },
+    ready() {
+      this.$nextTick(() => {
+        this.render(this.data, this.value)
+      })
+    },
+    methods: {
+      getId(i) {
+        return `#fe-picker-${this.uuid}-${i}`
+      },
+      render(data, value) {
+        this.count = this.data.length
+        const _this = this
+        if (!data || !data.length) {
+          return
+        }
+        let count = this.data.length
+        // set fist item as default value
+        if (value.length < count) {
+          for (let i = 0; i < count; i++) {
+            _this.value.$set(i, data[i][0].value || data[i][0])
+          }
+        }
+
+        for (let i = 0; i < data.length; i++) {
+          if (!document.querySelector(_this.getId(i))) {
+            return
+          }
+          // destroy the old item
+          _this.scroller[i] && _this.scroller[i].destroy()
+          _this.scroller[i] = new Scroller(_this.getId(i), {
+            data: data[i],
+            defaultValue: value[i] || data[i][0].value,
+            itemClass: _this.itemClass,
+            onSelect(value) {
+              _this.value.$set(i, value)
+            }
+          })
+          if (_this.value) {
+            _this.scroller[i].select(value[i])
+          }
+        }
       }
     }
   }
