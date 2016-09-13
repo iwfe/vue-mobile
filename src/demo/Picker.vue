@@ -21,6 +21,11 @@
         arr: [years],
         arr1: ['']
       }
+    },
+    watch: {
+      arr1(val) {
+        console.log('arr1:' + val)
+      }
     }
   }
 </script>

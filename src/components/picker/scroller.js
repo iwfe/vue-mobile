@@ -213,7 +213,6 @@ const members = {
     const self = this
     // decide which one was chosen according to the scrollTop
     const index = Math.round((self.__scrollTop - self.__minScrollTop - self.__itemHeight / 2) / self.__itemHeight)
-
     if (self.__prevValue !== null && self.__prevValue !== self.value) {
       self.options.onSelect(self.value)
     }
@@ -448,6 +447,7 @@ const members = {
           self.__isAnimating = false
         }
         if (self.__didDecelerationComplete || wasFinished) {
+          console.log(`__publish: ${self.value}`)
           self.__scrollingComplete()
         }
       }
@@ -493,6 +493,7 @@ const members = {
         return
       }
       if (self.__didDecelerationComplete) {
+        console.log(`__startDeceleration: ${self.value}`);
         self.__scrollingComplete()
       }
     }
@@ -519,7 +520,7 @@ const members = {
     } else {
       self.__decelerationVelocityY *= 0.95
     }
-
+    console.log(`__stepThroughDeceleration: ${self.value}`);
     self.__publish(scrollTop)
   }
 }
