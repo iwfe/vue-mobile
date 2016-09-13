@@ -18,7 +18,7 @@
     data() {
       return {
         /*eslint no-labels: ["error", { "allowLoop": true }]*/
-        arr: [years],
+        arr: [years, [1, 2, 3, 4, 5]],
         arr1: ['']
       }
     },
