@@ -1,20 +1,14 @@
-/**
-* @Author: lancui
-* @Date:   2016-08-31 14:08:00
-* @Email:  lancui@superjia.com
-* @Last modified by:   lancui
-* @Last modified time: 2016-09-07 18:09:72
-*/
-
-
-
 var path = require('path')
 var config = require('../config')
 var utils = require('./utils')
 var projectRoot = path.resolve(__dirname, '../')
-var webpack = require("webpack")
-var WebpackNotifierPlugin = require('webpack-notifier')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
+
+var env = process.env.NODE_ENV
+// check env & config/index.js to decide weither to enable CSS Sourcemaps for the
+// various preprocessor loaders added to vue-loader at the end of this file
+var cssSourceMapDev = (env === 'development' && config.dev.cssSourceMap)
+var cssSourceMapProd = (env === 'production' && config.build.productionSourceMap)
+var useCssSourceMap = cssSourceMapDev || cssSourceMapProd
 
 module.exports = {
   entry: {
@@ -29,25 +23,15 @@ module.exports = {
     extensions: ['', '.js', '.vue'],
     fallback: [path.join(__dirname, '../node_modules')],
     alias: {
+      'vue$': 'vue/dist/vue',
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
-      'components': path.resolve(__dirname, '../src/components'),
-      'reset.css': 'semantic-ui/dist/components/reset.min.css',
-      'site.css': 'semantic-ui/dist/components/site.min.css'
+      'components': path.resolve(__dirname, '../src/components')
     }
   },
   resolveLoader: {
     fallback: [path.join(__dirname, '../node_modules')]
   },
-  plugins: [
-    new webpack.ProvidePlugin({
-      Vue: 'vue',
-      $: 'jquery'
-    }),
-    new webpack.optimize.DedupePlugin(),
-    new WebpackNotifierPlugin({ excludeWarnings: true, alwaysNotify: true }),
-    new ExtractTextPlugin('[name].css')
-  ],
   module: {
     preLoaders: [
       {
@@ -79,10 +63,6 @@ module.exports = {
         loader: 'json'
       },
       {
-        test: /\.html$/,
-        loader: 'vue-html'
-      },
-      {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url',
         query: {
@@ -91,21 +71,12 @@ module.exports = {
         }
       },
       {
-        test: /\.(woff?|eot|ttf|otf)(\?.*)?$/,
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url',
         query: {
           limit: 10000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
-      },
-      // {
-      //   test: /\.css$/,
-      //   loader: ExtractTextPlugin.extract('style', 'css')
-      // },
-      {
-        test: /\.less$/,
-        loader: ExtractTextPlugin.extract('style', 'css!less'),
-        exclude: /node_modules/
       }
     ]
   },
@@ -113,10 +84,11 @@ module.exports = {
     formatter: require('eslint-friendly-formatter')
   },
   vue: {
-    loaders: {
-      js: 'babel!eslint',
-      css: ExtractTextPlugin.extract('style', 'css'),
-      less: ExtractTextPlugin.extract('style', 'css!less')
-    }
+    loaders: utils.cssLoaders({ sourceMap: useCssSourceMap }),
+    postcss: [
+      require('autoprefixer')({
+        browsers: ['last 2 versions']
+      })
+    ]
   }
 }

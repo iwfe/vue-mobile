@@ -4,6 +4,7 @@
     <div class="desc">{{desc}}</div>
   </header>
 </template>
+
 <script>
   export default {
     props: {
@@ -18,6 +19,7 @@
     }
   }
 </script>
+
 <style lang="less">
   .fe-header{
     height: 100px;

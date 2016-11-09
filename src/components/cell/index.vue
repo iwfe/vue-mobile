@@ -1,5 +1,5 @@
 <template>
-  <div class="weui_cell" :class="{'vux-tap-active': isLink || !!link}" @click="onClick">
+  <div class="weui_cell" :class="{'vux-tap-active': isLink || !!link}">
     <div class="weui_cell_hd">
       <slot name="icon"></slot>
     </div>
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import InlineDesc from '../inline-desc'
+import InlineDesc from '../InlineDesc'
 
 export default {
   components: {
