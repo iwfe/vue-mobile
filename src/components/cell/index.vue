@@ -4,7 +4,7 @@
       <slot name="icon"></slot>
     </div>
     <div class="weui_cell_bd" :class="{'weui_cell_primary':primary==='title'}">
-      <p>
+      <p v-if="title">
         {{title}}
         <slot name="after-title"></slot>
       </p>

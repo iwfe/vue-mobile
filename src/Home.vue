@@ -1,8 +1,8 @@
 <template>
   <div>
-    <group title="组件">
-      <router-link :to="component.link"  v-for="component in demos">
-        <cell :title="component.name" :desc="component.desc" :link="component.link"></cell>
+    <group v-for="group in groups" :title="group.groupTitle" >
+      <router-link :to="item.link"  v-for="item in group.groupItems">
+        <cell :desc="item.desc" :link="item.link"></cell>
       </router-link>
     </group>
   </div>
@@ -12,6 +12,7 @@
   import Group from './components/Group'
   import Cell from './components/Cell'
 
+  const groups = require('./menus')
   export default {
     components: {
       Group,
@@ -19,14 +20,14 @@
     },
     data () {
       return {
-        demos: [
-          {
-            name: 'Input',
-            desc: 'input组件',
-            link: { name: 'input' }
-          }
-        ]
+        groups: groups
       }
     }
   }
 </script>
+<style>
+  .weui_cell_primary {
+    text-align: left;
+    padding-left: 10px;
+  }
+</style>
