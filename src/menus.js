@@ -1,4 +1,4 @@
-export default [{
+module.exports = [{
   groupTitle: '基础',
   groupItems: [{
     'name': 'poper',

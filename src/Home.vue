@@ -1,6 +1,6 @@
 <template>
   <div>
-    <group v-for="group in groups" :title="group.groupTitle" >
+    <group v-for="group in groups" :key="group.groupTitle" :title="group.groupTitle">
       <router-link :to="item.link"  v-for="item in group.groupItems">
         <cell :desc="item.desc" :link="item.link"></cell>
       </router-link>
@@ -11,8 +11,8 @@
   // import * as Demos from './demos'
   import Group from './components/Group'
   import Cell from './components/Cell'
-
-  const groups = require('./menus')
+  import groups from './menus'
+  
   export default {
     components: {
       Group,
