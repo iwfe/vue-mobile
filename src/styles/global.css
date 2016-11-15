@@ -16,3 +16,11 @@
  -webkit-transition: opacity .2s;
  transition: opacity .2s;
 }
+
+#app {
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}

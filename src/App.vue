@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <router-link to="{ name: 'home' }">
+    <!-- <router-link to="{ name: 'home' }">
       <fe-header />
-    </router-link>
+    </router-link> -->
     <router-view></router-view>
   </div>
 </template>

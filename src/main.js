@@ -5,6 +5,7 @@ import routes from './routes'
 
 require('./styles/site.css')
 require('./styles/global.css')
+require('./assets/iconfont/iconfont.css')
 
 Vue.use(VueRouter)
 
