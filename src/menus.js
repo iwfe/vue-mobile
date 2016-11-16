@@ -3,6 +3,7 @@ module.exports = [{
   groupItems: [{
     'name': 'poper',
     'desc': 'poper组件',
+    'icon': 'if-location',
     'link': {
       'name': 'poper'
     }

@@ -5,30 +5,23 @@
       <p class="version">v0.1.0</p>
     </div>
     <div class="center">
-      <iw-cell icon="if-favourite" title="Done" needline="false"/>
+      <iw-cell icon="if-favourite" title="Done" :needline="false" :link="{name: 'demos'}"/>
       <div class="nd-pad">
         <iw-cell icon="if-subway" title="Github" info="Star me"/>
-        <iw-cell icon="if-entrust-mgmt" title="Settings" needline="false"/>
+        <iw-cell icon="if-entrust-mgmt" title="Settings" :needline="false"/>
       </div>
     </div>
     <iw-footer />
   </div>
 </template>
 <script>
-  // import * as Demos from './demos'
-  import IwFooter from './components/iw-footer'
+  import IwFooter from './IwFooter'
   import IwCell from './components/iw-cell'
-  import groups from './menus'
 
   export default {
     components: {
       IwFooter,
       IwCell
-    },
-    data () {
-      return {
-        groups: groups
-      }
     }
   }
 </script>
