@@ -5,21 +5,24 @@
       <p class="version">v0.1.0</p>
     </div>
     <div class="center">
-      <iw-cell icon="if-favourite" title="Done" />
-      <iw-cell icon="if-favourite" title="Github" info="Star me" />
-
+      <iw-cell icon="if-favourite" title="Done" needline="false"/>
+      <div class="nd-pad">
+        <iw-cell icon="if-subway" title="Github" info="Star me"/>
+        <iw-cell icon="if-entrust-mgmt" title="Settings" needline="false"/>
+      </div>
     </div>
+    <iw-footer />
   </div>
 </template>
 <script>
   // import * as Demos from './demos'
-  import Group from './components/Group'
+  import IwFooter from './components/iw-footer'
   import IwCell from './components/iw-cell'
   import groups from './menus'
 
   export default {
     components: {
-      Group,
+      IwFooter,
       IwCell
     },
     data () {
@@ -40,8 +43,8 @@
       height: 43px;
     }
   }
-  .center {
-
+  .nd-pad {
+    margin-top: 14px;
   }
 
 }

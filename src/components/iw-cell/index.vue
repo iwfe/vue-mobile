@@ -6,7 +6,7 @@
       <span class="info">{{info}}</span>
     </div>
     <i class="right-icon iconfont" :class="rightIcon"></i>
-    <p class="iw-cell-line"></p>
+    <p class="iw-cell-line" :class="{ 'hide-line': needline }"></p>
   </div>
 </template>
 
@@ -19,7 +19,8 @@
       rightIcon: {
         type: String,
         default: 'if-arrow-right'
-      }
+      },
+      needline: true
     }
   }
 </script>
@@ -33,7 +34,7 @@
   background-color: #fff;
   padding: 0 15px;
   display: flex;
-  font-size: 16px;
+  font-size: 17px;
   .left-item {
     flex: 1;
   }
@@ -46,10 +47,12 @@
   }
   .info {
     float: right;
-    color: rgb(153, 153, 153);
+    color: #999;
   }
   .right-icon {
     width: 46px;
+    font-size: 14px;
+    color: #c7c7cc;
   }
   .iw-cell-line {
     position: absolute;
@@ -57,6 +60,9 @@
     left: 15px;
     bottom: 1px;
     width: 100%;
+  }
+  .hide-line {
+    display: none;
   }
 }
 </style>

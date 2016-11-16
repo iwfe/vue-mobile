@@ -9,9 +9,9 @@
 </template>
 <script>
   // import * as Demos from './demos'
-  import Group from './components/Group'
-  import Cell from './components/Cell'
-  import groups from './menus'
+  import Group from '../components/Group'
+  import Cell from '../components/Cell'
+  import groups from '../menus'
 
   export default {
     components: {
