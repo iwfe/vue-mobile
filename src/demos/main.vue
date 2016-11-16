@@ -31,7 +31,6 @@
     },
     methods: {
       searchBlur () {
-        window.alert(this.search)
         if (this.search !== '') {
           this.hideSearchTip = true
         } else {
