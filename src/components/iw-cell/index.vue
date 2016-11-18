@@ -1,9 +1,5 @@
 <template>
-  <div class="iw-cell">
-    <template v-if="!!link">
-      <router-link :to="link">
-    </template>
-
+  <div class="iw-cell" @click="onClick">
       <div class="left-item">
         <i class="item-icon iconfont" :class="icon"></i>
         <span class="title">{{title}}</span>
@@ -11,10 +7,6 @@
       </div>
       <i class="right-icon iconfont" :class="rightIcon"></i>
       <p class="iw-cell-line" :class="{ 'hide-line': !needline }"></p>
-
-    <template v-if="!!link">
-      </router-link>
-    </template>
   </div>
 </template>
 
@@ -35,7 +27,14 @@
       },
       link: {
         type: [String, Object],
-        default: {}
+        default: null
+      }
+    },
+    methods: {
+      onClick () {
+        if (this.link != null) {
+          this.$router.go(this.link)
+        }
       }
     }
   }
