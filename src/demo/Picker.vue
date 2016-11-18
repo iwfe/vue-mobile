@@ -2,7 +2,7 @@
   <picker :data="arr" :value.sync="arr1"></picker>
 </template>
 <script lang="babel">
-  import Picker from '../components/picker/index.vue'
+  import Picker from '../components/Picker/index.vue'
 
   let years = []
   for (var i = 2000; i <= 2030; i++) {
@@ -18,7 +18,7 @@
     data() {
       return {
         /*eslint no-labels: ["error", { "allowLoop": true }]*/
-        arr: [years, [1, 2, 3, 4, 5]],
+        arr: [years, [1, 2, 3, 4, 5], [6, 7, 8, 9, 10]],
         arr1: ['']
       }
     },

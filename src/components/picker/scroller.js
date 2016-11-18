@@ -194,10 +194,12 @@ const members = {
    * 给所选中的那一项增加'XX-selected'类名,并记录上一次选中的那一项以及上一次选中的值
    * @param selectedItem 所选中的那一项
    */
-  __selectItem(selectedItem) {
-    const self = this
-    const selectedItemClass = self.options.itemClass + '-selected'
-    let lastSelectedElem = self.__content.querySelector('.' + selectedItemClass)
+
+  __selectItem (selectedItem) {
+    var self = this
+
+    var selectedItemClass = self.options.itemClass + '-selected'
+    var lastSelectedElem = self.__content.querySelector('.' + selectedItemClass)
     if (lastSelectedElem) {
       lastSelectedElem.classList.remove(selectedItemClass)
     }
@@ -213,6 +215,9 @@ const members = {
     const self = this
     // decide which one was chosen according to the scrollTop
     const index = Math.round((self.__scrollTop - self.__minScrollTop - self.__itemHeight / 2) / self.__itemHeight)
+
+    self.__selectItem(self.__content.children[index])
+
     if (self.__prevValue !== null && self.__prevValue !== self.value) {
       self.options.onSelect(self.value)
     }
@@ -447,7 +452,6 @@ const members = {
           self.__isAnimating = false
         }
         if (self.__didDecelerationComplete || wasFinished) {
-          console.log(`__publish: ${self.value}`)
           self.__scrollingComplete()
         }
       }
@@ -493,7 +497,6 @@ const members = {
         return
       }
       if (self.__didDecelerationComplete) {
-        console.log(`__startDeceleration: ${self.value}`);
         self.__scrollingComplete()
       }
     }
@@ -520,7 +523,6 @@ const members = {
     } else {
       self.__decelerationVelocityY *= 0.95
     }
-    console.log(`__stepThroughDeceleration: ${self.value}`);
     self.__publish(scrollTop)
   }
 }

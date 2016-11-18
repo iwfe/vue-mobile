@@ -9,6 +9,7 @@
 </template>
 <script lang="babel">
   import Scroller from './scroller'
+  
   export default {
     props: {
       data: {
