@@ -1,13 +1,13 @@
 <template>
   <div class="foot-panel">
     <div class="foot-item">
-      <router-link :to="{ name: 'home' }">
+      <router-link to="/">
         <i class="iconfont if-detailcollected"></i>
         <p>Home</p>
       </router-link>
     </div>
     <div class="foot-item">
-      <router-link :to="{ name: 'demos' }">
+      <router-link to="/demos">
         <i class="iconfont if-favourite"></i>
         <p>Demos</p>
       </router-link>

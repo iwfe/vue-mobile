@@ -8,12 +8,12 @@
 </template>
 
 <script>
-  import FeHeader from './components/FeHeader'
+  // import FeHeader from './components/FeHeader'
 
   export default {
     name: 'app',
     components: {
-      FeHeader
+      // FeHeader
     }
   }
 </script>

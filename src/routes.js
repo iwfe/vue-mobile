@@ -1,17 +1,15 @@
 import Home from './Home.vue'
-import Demos from './demos/Main.vue'
+// import Demos from './demos/Main.vue'
 import Input from './demos/Input.vue'
+const Demos = r => require.ensure([], () => r(require('./demos/Main.vue')), 'demos')
 
 export default [{
   path: '/',
-  name: 'home',
   component: Home
 }, {
   path: '/demos',
-  name: 'demos',
   component: Demos
 }, {
   path: '/input',
-  name: 'input',
   component: Input
 }]
