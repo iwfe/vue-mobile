@@ -1,6 +1,13 @@
 module.exports = [{
   groupTitle: '基础',
   groupItems: [{
+    'name': 'numberKeyboard',
+    'desc': 'numberKeyboard组件',
+    'icon': 'if-location',
+    'link': {
+      'name': 'numberKeyboard'
+    }
+  }, {
     'name': 'poper',
     'desc': 'poper组件',
     'icon': 'if-location',
@@ -173,29 +180,29 @@ module.exports = [{
 }
 ]
 
-// const getDemos = () => {
-//   const createDemo = (title) => {
-//     return {
-//       name: title,
-//       desc: `${title}组件`,
-//       link: { name: title }
-//     }
-//   }
-//   const modules = [
-//     'poper', 'picker', 'datetime', 'scroller', 'toast', 'swiper',
-//     'slide-menu', 'common-popup-picker', 'popdown', 'actionsheet',
-//     'toast', 'alert', 'confirm', 'loading-mask', 'no-data', 'no-permission',
-//     'x-textarea', 'button-tab', 'x-header', 'small-cell', 'loading', 'x-button',
-//     'flex-box', 'flexbox-item', 'divider', 'cell', 'input'
-//   ]
-//   // modules = [
-//   //   {groupTitle: '基础', datas: [
-//   //
-//   //   ]}
-//   // ]
-//   const list = []
-//   modules.map((v) => { list.push(createDemo(v)) })
-//   return list
-// }
-// const demos = getDemos()
-// console.log(JSON.stringify(demos))
+const getDemos = () => {
+  const createDemo = (title) => {
+    return {
+      name: title,
+      desc: `${title}组件`,
+      link: title
+    }
+  }
+  const modules = [
+    'poper', 'picker', 'datetime', 'scroller', 'toast', 'swiper',
+    'slide-menu', 'common-popup-picker', 'popdown', 'actionsheet',
+    'toast', 'alert', 'confirm', 'loading-mask', 'no-data', 'no-permission',
+    'x-textarea', 'button-tab', 'x-header', 'small-cell', 'loading', 'x-button',
+    'flex-box', 'flexbox-item', 'divider', 'cell', 'input'
+  ]
+  // modules = [
+  //   {groupTitle: '基础', datas: [
+  //
+  //   ]}
+  // ]
+  const list = []
+  modules.map((v) => { list.push(createDemo(v)) })
+  return list
+}
+const demos = getDemos()
+console.log(JSON.stringify(demos))

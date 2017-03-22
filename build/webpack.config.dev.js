@@ -11,7 +11,7 @@ import pkg from '../package.json'
 
 export default {
   entry,
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'eval-source-map',
   output: {
     path: `${process.cwd()}/dist`,
     publicPath: '/',

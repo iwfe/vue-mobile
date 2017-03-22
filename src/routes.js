@@ -1,6 +1,6 @@
 import Home from './Home.vue'
 // import Demos from './demos/Main.vue'
-import Input from './demos/Input.vue'
+import NumberKeyboard from './demos/NumberKeyboard.vue'
 const Demos = r => require.ensure([], () => r(require('./demos/Main.vue')), 'demos')
 
 export default [{
@@ -10,6 +10,6 @@ export default [{
   path: '/demos',
   component: Demos
 }, {
-  path: '/input',
-  component: Input
+  path: '/numberKeyboard',
+  component: NumberKeyboard
 }]

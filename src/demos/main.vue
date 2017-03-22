@@ -5,9 +5,11 @@
       <span class="input-tip" :class="{hide : hideSearchTip}"><i class="iconfont if-message"></i>搜索</span>
     </div>
     <group v-for="group in groups" :key="group.groupTitle" :title="group.groupTitle">
-      <router-link :to="item.link"  v-for="(item, index) in group.groupItems">
-        <iw-cell :title="item.desc" :link="item.link" :icon="item.icon" :needline="index < (group.groupItems.length - 1)"></iw-cell>
-      </router-link>
+      <template v-for="(item, index) in group.groupItems">
+        <router-link :to="item.link.name" >
+          <iw-cell :title="item.desc" :link="item.link" :icon="item.icon" :needline="index < (group.groupItems.length - 1)"></iw-cell>
+        </router-link>
+      </template>
     </group>
   </div>
 </template>
