@@ -17,7 +17,7 @@ export default {
   devtool: false,
   output: {
     path: `${process.cwd()}/dist`,
-    publicPath: '/disH5/h5/',
+    publicPath: '/',
     filename: '[name].js',
     chunkFilename: '[name].[chunkhash].js'
   },
@@ -62,24 +62,7 @@ export default {
       inject: true
     }),
     // 删除 dist 和 zip 目录然后重新建空目录
-    new CleanWebpackPlugin(['dist', 'zip'], { root: `${process.cwd()}` }),
-    // 懒加载静态上传需要处理的, 注意：ManifestPlugin必须放在ZipWebpackPlugin之前
-    new ManifestPlugin({
-      versionFiles: [
-        'common.css',
-        'common.js',
-        'app.css',
-        'app.js'
-      ],
-      hashNum: 7
-    }),
-    // https://github.com/erikdesjardins/zip-webpack-plugin
-    // 这个插件放在最后，因为 dev-build.js 里面需要把它 pop 出来
-    new ZipWebpackPlugin({
-      path: '../zip', //relative (to Webpack output path)
-      filename: `${pkg.name}.zip`,
-      exclude: [/\.html$/]
-    }),
+    new CleanWebpackPlugin(['dist'], { root: `${process.cwd()}` }),
   ],
   module: {
     rules: [
