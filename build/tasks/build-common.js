@@ -1,6 +1,6 @@
 import webpack from 'webpack'
 
-exports.webpackTask = function (webpackConf, buildEnv) {
+exports.webpackTask = function (webpackConf, cb) {
   webpack(webpackConf, (err, stats) => {
     if (err) {
       throw err
@@ -14,5 +14,7 @@ exports.webpackTask = function (webpackConf, buildEnv) {
       chunks: false,
       children: false
     }) + '\n\n')
+
+    cb && cb()
   })
 }

@@ -16,7 +16,7 @@
 </template>
 <script>
   import IwFooter from './IwFooter'
-  import IwCell from './components/iw-cell'
+  import IwCell from './components/IwCell'
 
   export default {
     components: {

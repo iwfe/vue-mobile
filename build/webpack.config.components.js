@@ -4,20 +4,18 @@ import EslintFriendlyFormatter from 'eslint-friendly-formatter'
 import CleanWebpackPlugin from 'clean-webpack-plugin'
 import ProgressBarPlugin from 'progress-bar-webpack-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
-import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 import { cssLoaders, styleLoaders } from './utils'
-import { entry, alias, provide } from './config'
+import { alias, provide } from './config'
 import pkg from '../package.json'
 
+
 export default {
-  entry,
   devtool: false,
   output: {
-    path: `${process.cwd()}/dist`,
+    path: `${process.cwd()}/dist/components`,
     publicPath: '/',
-    filename: '[name].js',
-    chunkFilename: '[name].[chunkhash].js'
+    filename: '[name].js'
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
@@ -32,35 +30,24 @@ export default {
         NODE_ENV: '"production"'
       }
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        drop_debugger: true,
-        drop_console: true
-      },
-      output: {
-        comments: false
-      },
-      sourceMap: false
-    }),
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     warnings: false,
+    //     drop_debugger: true,
+    //     drop_console: true
+    //   },
+    //   output: {
+    //     comments: false
+    //   },
+    //   sourceMap: false
+    // }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'common',
+      name: ['common'],
       minChunks: Infinity // 不需要抽取公共代码到这个文件中
     }),
-    // extract css into its own file
-    new ExtractTextPlugin({
-      filename: '[name].css'
-    }),
-    // https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      chunks: ['common', 'app'],
-      filename: 'index.html',
-      template: './index.html',
-      inject: true
-    }),
     // 删除 dist 和 zip 目录然后重新建空目录
-    new CleanWebpackPlugin(['dist'], { root: `${process.cwd()}` }),
+    new CleanWebpackPlugin(['dist/components'], { root: `${process.cwd()}` }),
   ],
   module: {
     rules: [
@@ -80,7 +67,7 @@ export default {
         options: {
           loaders: cssLoaders({
             sourceMap: false,
-            extract: true
+            extract: false
           }),
           postcss: [
             autoprefixer({ browsers: ['last 2 versions'] })
@@ -94,7 +81,7 @@ export default {
       },
       ...(styleLoaders({
         sourceMap: false,
-        extract: true
+        extract: false
       })),
       {
         test: /\.(png|jpe?g|gif|svg|swf|woff2?|eot|ttf|otf)(\?.*)?$/,
